@@ -181,9 +181,59 @@
             cursor: pointer;
             box-shadow: 0 10px 30px -10px var(--cyan-glow);
         }
+
+        .success-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 24px;
+    animation: fadeIn 0.5s ease;
+}
+
+.success-content h2 {
+    color: var(--cyan);
+    font-family: 'Orbitron';
+    letter-spacing: 2px;
+}
+
+.check-icon {
+    width: 80px;
+    height: 80px;
+    fill: var(--cyan);
+    filter: drop-shadow(0 0 10px var(--cyan-glow));
+    margin-bottom: 20px;
+}
+
     </style>
 </head>
 <body>
+
+
+    <div id="successMessage" class="success-overlay" style="display: none;">
+        <div class="success-content">
+            <svg class="check-icon" viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            <h2>REGISTRATION COMPLETE</h2>
+            <p>Your data has been initialized. See you at the Colloquium!</p>
+            
+            <button class="btn-primary" 
+                    onclick="window.location.href='https://colloquium11.vercel.app/'" 
+                    style="margin-top: 20px; width: auto; padding: 10px 30px;">
+                Visit Colloquium Website
+            </button>
+        </div>
+    </div>
+
 
 <div class="portal-container">
     <h1>Colloquium</h1>
@@ -221,9 +271,34 @@
             <input type="text" placeholder="Leader Full Name" required>
             <div style="display: flex; gap: 10px;">
                 <input type="email" placeholder="Email Address" required>
-                <input type="tel" placeholder="Mobile" required>
+                
+                <input type="tel" 
+                       placeholder="Mobile (10 digits)" 
+                       pattern="[0-9]{10}" 
+                       title="Please enter a 10-digit mobile number" 
+                       required>
             </div>
-            <input type="text" placeholder="Roll Number" required>
+            <input type="text" 
+                   placeholder="Roll Number (10 digits)" 
+                   pattern="[0-9]{10}" 
+                   title="Please enter a 10-digit roll number" 
+                   required>
+        </div>
+        
+        <div id="successMessage" class="success-overlay" style="display: none;">
+            <div class="success-content">
+                <svg class="check-icon" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                <h2>REGISTRATION COMPLETE</h2>
+                <p>Your data has been initialized. See you at the Colloquium!</p>
+                
+                <button class="btn-primary" 
+                        onclick="window.location.href='https://your-colloquium-website.com'" 
+                        style="margin-top: 20px; width: auto; padding: 10px 30px;">
+                    Visit Colloquium Website
+                </button>
+            </div>
         </div>
 
         <div id="dynamicMembers"></div>
@@ -232,7 +307,7 @@
     <button class="btn-submit" onclick="submitRegistration()">Execute Registration</button>
 </div>
 
-<script>
+<!-- <script>
     function updateView() {
         const size = document.getElementById('teamSize').value;
         document.getElementById('displayCount').innerText = size;
@@ -303,29 +378,157 @@
       }));
   
       try {
-          btn.innerText = "INITIALIZING...";
-          btn.disabled = true;
+    btn.innerText = "INITIALIZING...";
+    btn.disabled = true;
+
+    // Save to Firestore
+    await addDoc(collection(db, "registrations"), {
+        event: "ISTE X Colloquium",
+        selectedEvents,
+        teamSize: document.getElementById('teamSize').value,
+        leader: leaderData,
+        members: teamMembers,
+        timestamp: serverTimestamp()
+    });
+
+    // 1. Scroll to the top of the portal smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 2. Hide all form content and show success
+    const portal = document.querySelector('.portal-container');
+    portal.style.minHeight = portal.offsetHeight + 'px'; // Maintain height
+    
+    // Hide everything inside except the success message
+    Array.from(portal.children).forEach(child => {
+        if(child.id !== 'successMessage') child.style.display = 'none';
+    });
+
+    document.getElementById('successMessage').style.display = 'flex';
+
+} catch (e) {
+    console.error("Error: ", e);
+    btn.innerText = "RETRY EXECUTION";
+    btn.disabled = false;
+}
+    };
+  </script> -->
+
+  <script>
+    // 1. Updated view function with HTML5 validation constraints for members
+    function updateView() {
+        const size = document.getElementById('teamSize').value;
+        document.getElementById('displayCount').innerText = size;
+        const container = document.getElementById('dynamicMembers');
+        container.innerHTML = '';
+
+        for(let i = 2; i <= size; i++) {
+            container.innerHTML += `
+                <div class="member-card">
+                    <span class="section-label" style="font-size: 0.6rem; color: var(--text-dim);">Team Member ${i}</span>
+                    <input type="text" placeholder="Name" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="email" placeholder="Email" required title="Please include an '@' in the email address">
+                        <input type="text" placeholder="Roll Number" required pattern="[0-9]{10}" title="Roll number must be exactly 10 digits">
+                    </div>
+                </div>
+            `;
+        }
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   
-          // 4. Save to Firestore
-          const docRef = await addDoc(collection(db, "registrations"), {
-              event: "ISTE X Colloquium",
-              selectedEvents,
-              teamSize: document.getElementById('teamSize').value,
-              leader: leaderData,
-              members: teamMembers,
-              timestamp: serverTimestamp()
-          });
+    const firebaseConfig = {
+        apiKey: "AIzaSyDaKetBkR-dOmpcUWymyfDWKPdnXoLeiSA",
+        authDomain: "game-testing-623dc.firebaseapp.com",
+        projectId: "game-testing-623dc",
+        storageBucket: "game-testing-623dc.firebasestorage.app",
+        messagingSenderId: "658705967475",
+        appId: "1:658705967475:web:670b356494099bdd817d06",
+        measurementId: "G-NGMP3ZFNPH"
+    };
   
-          alert("Registration Successful! ID: " + docRef.id);
-          window.location.reload(); // Reset form
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
   
+    window.submitRegistration = async () => {
+      const btn = document.querySelector('.btn-submit');
+      const portal = document.querySelector('.portal-container');
+      
+      // 1. Trigger Native HTML5 Validation (Checks for @, 10 digits, etc.)
+      const allInputs = portal.querySelectorAll('input[required]');
+      let isValid = true;
+      
+      allInputs.forEach(input => {
+          if (!input.checkValidity()) {
+              input.reportValidity();
+              isValid = false;
+          }
+      });
+
+      if (!isValid) return;
+
+      // 2. Collect Selected Events
+      const selectedEvents = Array.from(document.querySelectorAll('.event-card.active'))
+                                  .map(card => card.innerText);
+  
+      if (selectedEvents.length === 0) {
+          alert("Please select at least one event.");
+          return;
+      }
+  
+      // 3. Collect Leader Data
+      const leaderForm = document.querySelector('.leader-form');
+      const leaderData = {
+          name: leaderForm.querySelector('input[type="text"]').value,
+          email: leaderForm.querySelector('input[type="email"]').value,
+          mobile: leaderForm.querySelector('input[type="tel"]').value,
+          roll: leaderForm.querySelectorAll('input[type="text"]')[1].value 
+      };
+  
+      // 4. Collect Team Members Data
+      const memberCards = document.querySelectorAll('.member-card');
+      const teamMembers = Array.from(memberCards).map(card => ({
+          name: card.querySelector('input[type="text"]').value,
+          email: card.querySelector('input[type="email"]').value,
+          roll: card.querySelectorAll('input[type="text"]')[1].value
+      }));
+  
+      try {
+        btn.innerText = "EXECUTING...";
+        btn.disabled = true;
+
+        // Save to Firestore
+        await addDoc(collection(db, "registrations"), {
+            event: "ISTE X Colloquium",
+            selectedEvents,
+            teamSize: document.getElementById('teamSize').value,
+            leader: leaderData,
+            members: teamMembers,
+            timestamp: serverTimestamp()
+        });
+
+        // 5. Success Animation & View Reset
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Maintain height to prevent layout jump
+        portal.style.minHeight = portal.offsetHeight + 'px'; 
+        
+        // Hide everything except the success message
+        Array.from(portal.children).forEach(child => {
+            if(child.id !== 'successMessage') child.style.display = 'none';
+        });
+
+        document.getElementById('successMessage').style.display = 'flex';
+
       } catch (e) {
-          console.error("Error adding document: ", e);
-          alert("Execution failed. Check console.");
-          btn.innerText = originalText;
-          btn.disabled = false;
+        console.error("Error: ", e);
+        btn.innerText = "RETRY EXECUTION";
+        btn.disabled = false;
       }
     };
-  </script>
+</script>
 </body>
 </html>
