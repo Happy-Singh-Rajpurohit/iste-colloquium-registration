@@ -16,10 +16,7 @@
 
         body {
             background-color: var(--bg);
-            /* Apply your downloaded circuit background here */
-            /* background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('your-bg.png'); */
-            background:  
-                url('abg.jpg');
+            background: url('abg.jpg');
             background-size: cover;
             background-attachment: fixed;
             color: white;
@@ -28,10 +25,12 @@
             padding: 40px 20px;
             display: flex;
             justify-content: center;
+            align-items: flex-start; /* Better for dynamic heights */
             min-height: 100vh;
         }
 
         .portal-container {
+            position: relative;
             width: 100%;
             max-width: 500px;
             background: var(--card-bg);
@@ -40,6 +39,8 @@
             border-radius: 24px;
             padding: 35px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            box-sizing: border-box;
+            height: auto; /* Ensure it wraps content */
         }
 
         h1 {
@@ -63,7 +64,6 @@
             margin-bottom: 12px;
         }
 
-        /* Multi-Event Grid Selection */
         .event-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -89,7 +89,6 @@
             color: var(--cyan);
         }
 
-        /* Form Controls */
         .select-wrapper {
             position: relative;
             display: flex;
@@ -120,11 +119,9 @@
             box-sizing: border-box;
         }
 
-        select { padding-left: 40px; } /* Space for the icon */
-
+        select { padding-left: 40px; }
         input:focus { outline: none; border-color: var(--cyan); }
 
-        /* Team Details Box */
         .details-box {
             position: relative;
             margin-top: 50px;
@@ -157,7 +154,6 @@
         .user-icon-small { width: 16px; height: 16px; fill: var(--cyan); }
         .size-text { font-family: 'Orbitron'; color: var(--cyan); font-weight: bold; }
 
-        /* Team Member Cards */
         .member-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -182,157 +178,195 @@
             box-shadow: 0 10px 30px -10px var(--cyan-glow);
         }
 
+        /* --- REDIRECTION PORTAL STYLES --- */
         .success-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border-radius: 24px;
-    animation: fadeIn 0.5s ease;
-}
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
 
-.success-content h2 {
-    color: var(--cyan);
-    font-family: 'Orbitron';
-    letter-spacing: 2px;
-}
+        .terminal-loader {
+            width: 100%;
+            text-align: center;
+        }
 
-.check-icon {
-    width: 80px;
-    height: 80px;
-    fill: var(--cyan);
-    filter: drop-shadow(0 0 10px var(--cyan-glow));
-    margin-bottom: 20px;
-}
+        .glitch {
+            color: var(--cyan);
+            font-family: 'Orbitron';
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 80, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75);
+            animation: glitch 500ms infinite;
+            margin-bottom: 20px;
+        }
 
+        @keyframes glitch {
+            0% { text-shadow: 1px 0 0 red, -1px 0 0 cyan; }
+            50% { text-shadow: -1px 0 0 red, 1px 0 0 cyan; }
+            100% { text-shadow: 1px 0 0 red, -1px 0 0 cyan; }
+        }
+
+        .hourglass {
+            display: block;
+            background: var(--cyan);
+            margin: 20px auto;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 50%, 100% 100%, 0% 100%, 50% 50%);
+            width: 35px;
+            height: 60px;
+            animation: hg-rotate 2s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--cyan-glow);
+        }
+
+        @keyframes hg-rotate {
+            0% { transform: rotate(0deg); }
+            40% { transform: rotate(180deg); }
+            50% { transform: rotate(180deg); }
+            90% { transform: rotate(360deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .confirmation-info {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin: 20px 0;
+            border-top: 1px solid rgba(34, 211, 238, 0.1);
+            padding-top: 15px;
+        }
+
+        .conf-id {
+            color: var(--cyan);
+            font-family: 'Orbitron';
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-redirect {
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 14px 20px;
+            width: 100%;
+            font-family: 'Orbitron';
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        .btn-redirect:hover {
+            background: var(--cyan);
+            color: black;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-
-    <div id="successMessage" class="success-overlay" style="display: none;">
-        <div class="success-content">
-            <svg class="check-icon" viewBox="0 0 24 24">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-            </svg>
-            <h2>REGISTRATION COMPLETE</h2>
-            <p>Your data has been initialized. See you at the Colloquium!</p>
-            
-            <button class="btn-primary" 
-                    onclick="window.location.href='https://colloquium11.vercel.app/'" 
-                    style="margin-top: 20px; width: auto; padding: 10px 30px;">
-                Visit Colloquium Website
-            </button>
-        </div>
-    </div>
-
-
-<div class="portal-container">
-    <h1>Colloquium</h1>
-
-    <span class="section-label">Select Events</span>
-    <div class="event-grid">
-        <div class="event-card active" onclick="this.classList.toggle('active')">Cryptix</div>
-        <div class="event-card" onclick="this.classList.toggle('active')">WebWarp</div>
-        <div class="event-card" onclick="this.classList.toggle('active')" style="grid-column: span 2;">Kaggle Playhouse </div>
-    </div>
-
-    <span class="section-label">Select Team Size</span>
-    <div class="select-wrapper">
-        <svg class="input-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-        <select id="teamSize" onchange="updateView()">
-            <option value="1">1 (Individual)</option>
-            <option value="2">2 Members</option>
-            <option value="3">3 Members</option>
-            <option value="4">4 Members</option>
-        </select>
-    </div>
-
-    <div class="details-box">
-        <div class="details-header">
-            <div class="badge">
-                <svg class="user-icon-small" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <span class="section-label" style="margin:0; font-size: 0.65rem;">Team Details</span>
-            </div>
-            <div class="badge">
-                <span id="displayCount" class="size-text">1</span>
-            </div>
-        </div>
-
-        <div class="leader-form">
-            <input type="text" placeholder="Leader Full Name" required>
-            <div style="display: flex; gap: 10px;">
-                <input type="email" placeholder="Email Address" required>
-                
-                <input type="tel" 
-                       placeholder="Mobile (10 digits)" 
-                       pattern="[0-9]{10}" 
-                       title="Please enter a 10-digit mobile number" 
-                       required>
-            </div>
-            <input type="text" 
-                   placeholder="Roll Number (10 digits)" 
-                   pattern="[0-9]{10}" 
-                   title="Please enter a 10-digit roll number" 
-                   required>
-        </div>
-        
+    <div class="portal-container" id="mainPortal">
         <div id="successMessage" class="success-overlay" style="display: none;">
-            <div class="success-content">
-                <svg class="check-icon" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                </svg>
-                <h2>REGISTRATION COMPLETE</h2>
-                <p>Your data has been initialized. See you at the Colloquium!</p>
+            <div class="terminal-loader">
+                <h2 class="glitch">Registration Successful</h2>
                 
-                <button class="btn-primary" 
-                        onclick="window.location.href='https://your-colloquium-website.com'" 
-                        style="margin-top: 20px; width: auto; padding: 10px 30px;">
-                    Visit Colloquium Website
+                <div class="hourglass"></div>
+
+                <div class="confirmation-info">
+                    <!-- <p>REGISTRATION SECURED ON THE BLOCKCHAIN</p> -->
+                    <p>SESSION ID: <span class="conf-id" id="dynamicID">#ISTE-XXXX-X</span></p>
+                </div>
+                
+                <button class="btn-redirect" onclick="window.location.href='https://colloquium.netlify.app/'">
+                    REDIRECT TO COLLOQUIUM WEBSITE
                 </button>
             </div>
         </div>
 
-        <div id="dynamicMembers"></div>
-    </div>
+        <div id="formContent">
+            <h1>ISTE X Colloquium</h1>
 
-    <button class="btn-submit" onclick="submitRegistration()">Execute Registration</button>
-</div>
+            <span class="section-label">Select Events</span>
+            <div class="event-grid">
+                <div class="event-card active" onclick="this.classList.toggle('active')">Cryptix</div>
+                <div class="event-card" onclick="this.classList.toggle('active')">WebWarp</div>
+                <div class="event-card" onclick="this.classList.toggle('active')" style="grid-column: span 2;">Kaggle Playhouse </div>
+            </div>
 
-<!-- <script>
-    function updateView() {
-        const size = document.getElementById('teamSize').value;
-        document.getElementById('displayCount').innerText = size;
-        const container = document.getElementById('dynamicMembers');
-        container.innerHTML = '';
+            <span class="section-label">Select Team Size</span>
+            <div class="select-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <select id="teamSize" onchange="updateView()">
+                    <option value="1">1 (Individual)</option>
+                    <option value="2">2 Members</option>
+                    <option value="3">3 Members</option>
+                    <option value="4">4 Members</option>
+                </select>
+            </div>
 
-        for(let i = 2; i <= size; i++) {
-            container.innerHTML += `
-                <div class="member-card">
-                    <span class="section-label" style="font-size: 0.6rem; color: var(--text-dim);">Team Member ${i}</span>
-                    <input type="text" placeholder="Name">
-                    <div style="display: flex; gap: 10px;">
-                        <input type="email" placeholder="Email">
-                        <input type="text" placeholder="Roll Number">
+            <div class="details-box">
+                <div class="details-header">
+                    <div class="badge">
+                        <svg class="user-icon-small" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <span class="section-label" style="margin:0; font-size: 0.65rem;">Team Details</span>
+                    </div>
+                    <div class="badge">
+                        <span id="displayCount" class="size-text">1</span>
                     </div>
                 </div>
-            `;
+
+                <div class="leader-form">
+                    <input type="text" placeholder="Leader Full Name" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="tel" placeholder="Mobile (10 digits)" pattern="[0-9]{10}" required>
+                    </div>
+                    <input type="text" placeholder="Roll Number (10 digits)" pattern="[0-9]{10}" required>
+                </div>
+                
+                <div id="dynamicMembers"></div>
+            </div>
+
+            <button class="btn-submit" onclick="submitRegistration()">Execute Registration</button>
+        </div>
+    </div>
+
+    <script>
+        function updateView() {
+            const size = document.getElementById('teamSize').value;
+            document.getElementById('displayCount').innerText = size;
+            const container = document.getElementById('dynamicMembers');
+            container.innerHTML = '';
+
+            for(let i = 2; i <= size; i++) {
+                container.innerHTML += `
+                    <div class="member-card">
+                        <span class="section-label" style="font-size: 0.6rem; color: var(--text-dim);">Team Member ${i}</span>
+                        <input type="text" placeholder="Name" required>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="email" placeholder="Email" required>
+                            <input type="text" placeholder="Roll Number" required pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                `;
+            }
         }
-    }
-</script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  
-    const firebaseConfig = {
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      
+        const firebaseConfig = {
             apiKey: "AIzaSyDaKetBkR-dOmpcUWymyfDWKPdnXoLeiSA",
             authDomain: "game-testing-623dc.firebaseapp.com",
             projectId: "game-testing-623dc",
@@ -341,194 +375,92 @@
             appId: "1:658705967475:web:670b356494099bdd817d06",
             measurementId: "G-NGMP3ZFNPH"
         };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-  
-    // Function to handle form submission
-    window.submitRegistration = async () => {
-      const btn = document.querySelector('.btn-submit');
-      const originalText = btn.innerText;
-  
-      // 1. Collect Selected Events
-      const selectedEvents = Array.from(document.querySelectorAll('.event-card.active'))
-                                  .map(card => card.innerText);
-  
-      if (selectedEvents.length === 0) {
-          alert("Please select at least one event.");
-          return;
-      }
-  
-      // 2. Collect Leader Data
-      const leaderForm = document.querySelector('.leader-form');
-      const leaderData = {
-          name: leaderForm.querySelector('input[type="text"]').value,
-          email: leaderForm.querySelector('input[type="email"]').value,
-          mobile: leaderForm.querySelector('input[type="tel"]').value,
-          roll: leaderForm.querySelectorAll('input[type="text"]')[1].value // The second text input
-      };
-  
-      // 3. Collect Team Members Data
-      const memberCards = document.querySelectorAll('.member-card');
-      const teamMembers = Array.from(memberCards).map(card => ({
-          name: card.querySelector('input[type="text"]').value,
-          email: card.querySelector('input[type="email"]').value,
-          roll: card.querySelectorAll('input[type="text"]')[1].value
-      }));
-  
-      try {
-    btn.innerText = "INITIALIZING...";
-    btn.disabled = true;
+      
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // Save to Firestore
-    await addDoc(collection(db, "registrations"), {
-        event: "ISTE X Colloquium",
-        selectedEvents,
-        teamSize: document.getElementById('teamSize').value,
-        leader: leaderData,
-        members: teamMembers,
-        timestamp: serverTimestamp()
-    });
-
-    // 1. Scroll to the top of the portal smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // 2. Hide all form content and show success
-    const portal = document.querySelector('.portal-container');
-    portal.style.minHeight = portal.offsetHeight + 'px'; // Maintain height
-    
-    // Hide everything inside except the success message
-    Array.from(portal.children).forEach(child => {
-        if(child.id !== 'successMessage') child.style.display = 'none';
-    });
-
-    document.getElementById('successMessage').style.display = 'flex';
-
-} catch (e) {
-    console.error("Error: ", e);
-    btn.innerText = "RETRY EXECUTION";
-    btn.disabled = false;
-}
-    };
-  </script> -->
-
-  <script>
-    // 1. Updated view function with HTML5 validation constraints for members
-    function updateView() {
-        const size = document.getElementById('teamSize').value;
-        document.getElementById('displayCount').innerText = size;
-        const container = document.getElementById('dynamicMembers');
-        container.innerHTML = '';
-
-        for(let i = 2; i <= size; i++) {
-            container.innerHTML += `
-                <div class="member-card">
-                    <span class="section-label" style="font-size: 0.6rem; color: var(--text-dim);">Team Member ${i}</span>
-                    <input type="text" placeholder="Name" required>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="email" placeholder="Email" required title="Please include an '@' in the email address">
-                        <input type="text" placeholder="Roll Number" required pattern="[0-9]{10}" title="Roll number must be exactly 10 digits">
-                    </div>
-                </div>
-            `;
+        // Helper to generate a random session ID
+        function generateSessionID() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return `#ISTE-${result}`;
         }
-    }
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  
-    const firebaseConfig = {
-        apiKey: "AIzaSyDaKetBkR-dOmpcUWymyfDWKPdnXoLeiSA",
-        authDomain: "game-testing-623dc.firebaseapp.com",
-        projectId: "game-testing-623dc",
-        storageBucket: "game-testing-623dc.firebasestorage.app",
-        messagingSenderId: "658705967475",
-        appId: "1:658705967475:web:670b356494099bdd817d06",
-        measurementId: "G-NGMP3ZFNPH"
-    };
-  
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-  
-    window.submitRegistration = async () => {
-      const btn = document.querySelector('.btn-submit');
-      const portal = document.querySelector('.portal-container');
       
-      // 1. Trigger Native HTML5 Validation (Checks for @, 10 digits, etc.)
-      const allInputs = portal.querySelectorAll('input[required]');
-      let isValid = true;
-      
-      allInputs.forEach(input => {
-          if (!input.checkValidity()) {
-              input.reportValidity();
-              isValid = false;
-          }
-      });
+        window.submitRegistration = async () => {
+            const btn = document.querySelector('.btn-submit');
+            const portal = document.getElementById('mainPortal');
+            
+            const allInputs = portal.querySelectorAll('input[required]');
+            let isValid = true;
+            
+            allInputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.reportValidity();
+                    isValid = false;
+                }
+            });
 
-      if (!isValid) return;
+            if (!isValid) return;
 
-      // 2. Collect Selected Events
-      const selectedEvents = Array.from(document.querySelectorAll('.event-card.active'))
-                                  .map(card => card.innerText);
-  
-      if (selectedEvents.length === 0) {
-          alert("Please select at least one event.");
-          return;
-      }
-  
-      // 3. Collect Leader Data
-      const leaderForm = document.querySelector('.leader-form');
-      const leaderData = {
-          name: leaderForm.querySelector('input[type="text"]').value,
-          email: leaderForm.querySelector('input[type="email"]').value,
-          mobile: leaderForm.querySelector('input[type="tel"]').value,
-          roll: leaderForm.querySelectorAll('input[type="text"]')[1].value 
-      };
-  
-      // 4. Collect Team Members Data
-      const memberCards = document.querySelectorAll('.member-card');
-      const teamMembers = Array.from(memberCards).map(card => ({
-          name: card.querySelector('input[type="text"]').value,
-          email: card.querySelector('input[type="email"]').value,
-          roll: card.querySelectorAll('input[type="text"]')[1].value
-      }));
-  
-      try {
-        btn.innerText = "EXECUTING...";
-        btn.disabled = true;
-
-        // Save to Firestore
-        await addDoc(collection(db, "registrations"), {
-            event: "ISTE X Colloquium",
-            selectedEvents,
-            teamSize: document.getElementById('teamSize').value,
-            leader: leaderData,
-            members: teamMembers,
-            timestamp: serverTimestamp()
-        });
-
-        // 5. Success Animation & View Reset
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Maintain height to prevent layout jump
-        portal.style.minHeight = portal.offsetHeight + 'px'; 
+            const selectedEvents = Array.from(document.querySelectorAll('.event-card.active'))
+                                        .map(card => card.innerText);
         
-        // Hide everything except the success message
-        Array.from(portal.children).forEach(child => {
-            if(child.id !== 'successMessage') child.style.display = 'none';
-        });
+            if (selectedEvents.length === 0) {
+                alert("Please select at least one event.");
+                return;
+            }
+        
+            const leaderForm = document.querySelector('.leader-form');
+            const leaderData = {
+                name: leaderForm.querySelector('input[type="text"]').value,
+                email: leaderForm.querySelector('input[type="email"]').value,
+                mobile: leaderForm.querySelector('input[type="tel"]').value,
+                roll: leaderForm.querySelectorAll('input[type="text"]')[1].value 
+            };
+        
+            const memberCards = document.querySelectorAll('.member-card');
+            const teamMembers = Array.from(memberCards).map(card => ({
+                name: card.querySelector('input[type="text"]').value,
+                email: card.querySelector('input[type="email"]').value,
+                roll: card.querySelectorAll('input[type="text"]')[1].value
+            }));
+        
+            try {
+                btn.innerText = "EXECUTING...";
+                btn.disabled = true;
 
-        document.getElementById('successMessage').style.display = 'flex';
+                await addDoc(collection(db, "registrations"), {
+                    event: "ISTE X Colloquium",
+                    selectedEvents,
+                    teamSize: document.getElementById('teamSize').value,
+                    leader: leaderData,
+                    members: teamMembers,
+                    timestamp: serverTimestamp()
+                });
 
-      } catch (e) {
-        console.error("Error: ", e);
-        btn.innerText = "RETRY EXECUTION";
-        btn.disabled = false;
-      }
-    };
-</script>
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Solve the blank space issue
+                document.getElementById('formContent').style.display = 'none';
+                
+                // Clear any manual height set during submission
+                portal.style.minHeight = 'unset'; 
+                portal.style.height = 'auto';
+
+                // Set dynamic Session ID
+                document.getElementById('dynamicID').innerText = generateSessionID();
+                
+                document.getElementById('successMessage').style.display = 'flex';
+
+            } catch (e) {
+                console.error("Error: ", e);
+                btn.innerText = "RETRY EXECUTION";
+                btn.disabled = false;
+            }
+        };
+    </script>
 </body>
 </html>
