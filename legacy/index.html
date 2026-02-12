@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTE X Colloquium | Registration</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+
+    <style>
+        :root {
+            --bg: #030712;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --cyan: #22d3ee;
+            --cyan-glow: rgba(34, 211, 238, 0.4);
+            --text-dim: #94a3b8;
+        }
+
+        body {
+            background-color: var(--bg);
+            background: url('abg.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .portal-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            box-sizing: border-box;
+            height: auto;
+            transition: all 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--cyan);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        .section-label {
+            display: block;
+            color: var(--cyan);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .event-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .event-card.active {
+            border-color: var(--cyan);
+            background: rgba(34, 211, 238, 0.1);
+            box-shadow: 0 0 15px var(--cyan-glow);
+            color: var(--cyan);
+        }
+
+        .select-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            bottom: 2rem;
+            width: 20px;
+            height: 20px;
+            fill: var(--cyan);
+            pointer-events: none;
+        }
+
+        select,
+        input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        select {
+            padding-left: 40px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+
+        .details-box {
+            position: relative;
+            margin-top: 50px;
+            padding: 30px 20px 10px;
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 20px;
+            background: rgba(34, 211, 238, 0.02);
+        }
+
+        .details-header {
+            position: absolute;
+            top: -24px;
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0a0f1d;
+            border: 1px solid var(--cyan);
+            padding: 6px 16px;
+            border-radius: 30px;
+            box-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        .user-icon-small {
+            width: 16px;
+            height: 16px;
+            fill: var(--cyan);
+        }
+
+        .size-text {
+            font-family: 'Orbitron';
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--cyan);
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px -10px var(--cyan-glow);
+        }
+
+        /* --- SUCCESS PORTAL STYLES --- */
+        .success-overlay {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .success-title {
+            color: var(--cyan);
+            font-family: 'Orbitron';
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        .lottie-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: -20px 0;
+        }
+
+        .session-info {
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .session-id {
+            font-family: 'Orbitron';
+            color: var(--cyan);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin: 10px 0 20px;
+        }
+
+        .btn-redirect {
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 16px;
+            width: 100%;
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 12px;
+        }
+
+        .btn-redirect:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="portal-container" id="mainPortal">
+        <div id="successMessage" class="success-overlay" style="display: none;">
+            <h2 class="success-title">REGISTRATION COMPLETE</h2>
+
+            <div class="lottie-wrap">
+                <dotlottie-wc src="https://lottie.host/695a2df3-8f64-4b82-b5d8-6e9312ae815e/AzFfG9uxDX.lottie"
+                    style="width: 200px; height: 160px" autoplay loop>
+                </dotlottie-wc>
+            </div>
+
+            <div class="session-info">
+                <div class="session-id" id="dynamicID">SEE YOU AT COLLOQUIUM</div>
+                <button class="btn-redirect" onclick="window.location.href='https://colloquium.netlify.app/'">
+
+                    REDIRECT TO COLLOQUIUM WEBSITE
+
+                </button>
+                </div>
+        </div>
+
+        <div id="formContent">
+            <h1>ISTE X Colloquium</h1>
+
+            <span class="section-label">Select Events</span>
+            <div class="event-grid">
+                <div class="event-card active" onclick="this.classList.toggle('active')">Cryptix</div>
+                <div class="event-card" onclick="this.classList.toggle('active')">WebWarp</div>
+                <div class="event-card" onclick="this.classList.toggle('active')" style="grid-column: span 2;">Kaggle
+                    Royale </div>
+            </div>
+
+            <span class="section-label">Select Team Size</span>
+            <div class="select-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+                <select id="teamSize" onchange="updateView()">
+                    <option value="1">1 (Individual)</option>
+                    <option value="2">2 Members</option>
+                    <option value="3">3 Members</option>
+                    <option value="4">4 Members</option>
+                </select>
+            </div>
+
+            <div class="details-box">
+                <div class="details-header">
+                    <div class="badge">
+                        <svg class="user-icon-small" viewBox="0 0 24 24">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                        <span class="section-label" style="margin:0; font-size: 0.65rem;">Team Details</span>
+                    </div>
+                    <div class="badge">
+                        <span id="displayCount" class="size-text">1</span>
+                    </div>
+                </div>
+
+                <div class="leader-form">
+                    <input type="text" placeholder="Leader Full Name" required>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="tel" placeholder="Mobile (10 digits)" pattern="[0-9]{10}" required>
+                    </div>
+                    <input type="text" placeholder="Roll Number (10 digits)" pattern="[0-9]{10}" required>
+                </div>
+
+                <div id="dynamicMembers"></div>
+            </div>
+
+            <button class="btn-submit" onclick="submitRegistration()">Execute Registration</button>
+        </div>
+    </div>
+
+    <script>
+        function updateView() {
+            const size = document.getElementById('teamSize').value;
+            document.getElementById('displayCount').innerText = size;
+            const container = document.getElementById('dynamicMembers');
+            container.innerHTML = '';
+
+            for (let i = 2; i <= size; i++) {
+                container.innerHTML += `
+                    <div class="member-card">
+                        <span class="section-label" style="font-size: 0.6rem; color: var(--text-dim);">Team Member ${i}</span>
+                        <input type="text" placeholder="Name" required>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="email" placeholder="Email" required>
+                            <input type="text" placeholder="Roll Number" required pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTjlkNrXoADcLjfyUxqr5DvtBQf-vd3cU",
+            authDomain: "colloquium-1abe0.firebaseapp.com",
+            projectId: "colloquium-1abe0",
+            storageBucket: "colloquium-1abe0.firebasestorage.app",
+            messagingSenderId: "61155972002",
+            appId: "1:61155972002:web:db8d906aa2e344ce8618fb",
+            measurementId: "G-0X2JV69FC6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.submitRegistration = async () => {
+            const btn = document.querySelector('.btn-submit');
+            const portal = document.getElementById('mainPortal');
+
+            const allInputs = portal.querySelectorAll('input[required]');
+            let isValid = true;
+
+            allInputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.reportValidity();
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) return;
+
+            const selectedEvents = Array.from(document.querySelectorAll('.event-card.active'))
+                .map(card => card.innerText);
+
+            if (selectedEvents.length === 0) {
+                alert("Please select at least one event.");
+                return;
+            }
+
+            const leaderForm = document.querySelector('.leader-form');
+            const leaderData = {
+                name: leaderForm.querySelector('input[type="text"]').value,
+                email: leaderForm.querySelector('input[type="email"]').value,
+                mobile: leaderForm.querySelector('input[type="tel"]').value,
+                roll: leaderForm.querySelectorAll('input[type="text"]')[1].value
+            };
+
+            const memberCards = document.querySelectorAll('.member-card');
+            const teamMembers = Array.from(memberCards).map(card => ({
+                name: card.querySelector('input[type="text"]').value,
+                email: card.querySelector('input[type="email"]').value,
+                roll: card.querySelectorAll('input[type="text"]')[1].value
+            }));
+
+            try {
+                btn.innerText = "EXECUTING...";
+                btn.disabled = true;
+
+                await addDoc(collection(db, "registrations"), {
+                    event: "ISTE X Colloquium",
+                    selectedEvents,
+                    teamSize: document.getElementById('teamSize').value,
+                    leader: leaderData,
+                    members: teamMembers,
+                    timestamp: serverTimestamp()
+                });
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                document.getElementById('formContent').style.display = 'none';
+                portal.style.height = 'auto';
+                portal.style.minHeight = 'unset';
+
+                document.getElementById('successMessage').style.display = 'flex';
+
+            } catch (e) {
+                console.error("Error: ", e);
+                btn.innerText = "RETRY EXECUTION";
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+
+</html>
