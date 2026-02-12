@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RegistrationForm from './components/RegistrationForm';
 import SuccessMessage from './components/SuccessMessage';
-
+ 
 function App() {
   const [isSuccess, setIsSuccess] = useState(false);
 
