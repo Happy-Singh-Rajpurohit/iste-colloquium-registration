@@ -144,8 +144,7 @@ const RegistrationForm = ({ onSuccess }) => {
                         </div>
                         <input
                             type="text"
-                            placeholder="Roll Number (10 digits)"
-                            pattern="[0-9]{10}"
+                            placeholder="Roll Number"
                             required
                             value={leader.roll}
                             onChange={(e) => setLeader({ ...leader, roll: e.target.value })}
@@ -176,7 +175,6 @@ const RegistrationForm = ({ onSuccess }) => {
                                     type="text"
                                     placeholder="Roll Number"
                                     required
-                                    pattern="[0-9]{10}"
                                     value={member.roll}
                                     onChange={(e) => handleMemberChange(index, 'roll', e.target.value)}
                                 />
